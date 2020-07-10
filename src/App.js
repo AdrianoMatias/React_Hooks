@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 
 function App() {
   const [tech, setTech] = useState([
@@ -7,10 +7,10 @@ function App() {
 
   const [newTech, setNewThec] = useState('');
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
     setTech([...tech, newTech])
     setNewThec('');
-  }
+  }, [newTech, tech]);
 
   useEffect(() => {
     const storageTech = localStorage.getItem('tech');
@@ -31,7 +31,7 @@ function App() {
       <ul>
         { tech.map(t => <li key={t}>{t}</li>)}
       </ul>
-  <strong>Você tem {techSize} tecnologias </strong>
+      <strong>Você tem {techSize} tecnologias </strong> <br />
       <input value={newTech} onChange={e => setNewThec(e.target.value)} />
       <button type="button" onClick={handleAdd}>Adicionar</button>
     </>
